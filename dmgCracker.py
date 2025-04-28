@@ -36,7 +36,7 @@ class Main:
     def __init__(self):
         self.root = Tk()
         self.root.geometry("800x600")
-        self.root.title("DMG Cracker")
+        self.root.title("File Cracker")
         self.root.configure(bg="black")
         self.viewer = VIEWER()
         self.buildGui()
@@ -48,12 +48,12 @@ class Main:
         elif not out_path:
             out_path = os.path.dirname(file_path)
             print("Output directory not selected, defaulting to:", out_path)
-        os.system(f".{os.path.sep}7zz x -o{out_path} {file_path}")
-        self.viewer.print("DMG file extracted to: " + out_path)
+        os.system(f".{os.path.sep}7zz x -o{out_path} -y -snl {file_path}")
+        self.viewer.print("File extracted to: " + out_path)
 
     def buildGui(self):
         self.label = Label(
-            self.root, text="Add DMG files to crack:", bg="black", fg="white"
+            self.root, text="Add files to crack:", bg="black", fg="white"
         )
         self.label.pack(pady=20)
 
@@ -61,7 +61,7 @@ class Main:
         self.top_frame.pack(pady=10)
         self.select_button = Button(
             self.top_frame,
-            text="Add DMG File",
+            text="Add File",
             command=self.select_file,
             bg="black",
             fg="black",
@@ -101,8 +101,8 @@ class Main:
 
     def select_file(self):
         file_path = filedialog.askopenfilename(
-            title="Select DMG file",
-            filetypes=[("DMG files", "*.dmg")],
+            title="Select File",
+            filetypes=[("All files", "*.*")],
         )
         if file_path:
             self.files_list.insert(END, file_path)
