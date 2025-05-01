@@ -8,38 +8,21 @@ os.chdir(os.path.dirname(__file__))
 
 class VIEWER:
     def __init__(self):
-        self.window = Tk()
-        self.window.title("Output Viewer")
-        self.window.geometry("900x500")
-        self.window.configure(bg="#000000")
-        self.emulatedTerminal = Text(
-            self.window,
-            bg="#000000",
-            fg="white",
-            font=("Arial", 12),
-            width=100,
-            height=30,
-            state=DISABLED,
-        )
-        self.emulatedTerminal.pack(pady=10)
+        None
 
-    def print(self, text):
-        sleep(0.25)
-        self.emulatedTerminal.config(state=NORMAL)
-        self.emulatedTerminal.insert(END, text + "\n")
-        self.emulatedTerminal.config(state=DISABLED)
-        self.emulatedTerminal.see(END)
-        self.window.update()
+    def print(self, message):
+        print(message)
 
 
 class Main:
     def __init__(self):
         self.root = Tk()
-        self.root.geometry("800x600")
+        self.root.geometry("450x425")
         self.root.title("File Cracker")
         self.root.configure(bg="black")
         self.viewer = VIEWER()
         self.buildGui()
+        self.root.focus_force()
 
     def openDmg(self, file_path=None, out_path=None):
         if not file_path:
@@ -50,6 +33,7 @@ class Main:
             print("Output directory not selected, defaulting to:", out_path)
         os.system(f".{os.path.sep}7zz x -o{out_path} -y -snl {file_path}")
         self.viewer.print("File extracted to: " + out_path)
+        self.root.focus_force()
 
     def buildGui(self):
         self.label = Label(
@@ -109,6 +93,7 @@ class Main:
             self.viewer.print("File selected: " + file_path)
         else:
             self.viewer.print("No file selected.")
+        self.root.focus_force()
 
     def select_output(self):
         self.out_path = filedialog.askdirectory(
@@ -118,6 +103,7 @@ class Main:
             self.viewer.print("Output directory selected: " + self.out_path)
         else:
             self.viewer.print("No output directory selected.")
+        self.root.focus_force()
 
     def start_cracking(self):
         selected_files = self.files_list.get(0, END)
